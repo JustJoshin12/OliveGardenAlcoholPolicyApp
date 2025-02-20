@@ -5,10 +5,19 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return res.status(200).json({});
+  }
+
   console.log("Request method is:", req.method);
-  // if (req.method !== 'POST') {
-  //   return res.status(405).json({ message: 'Method not allowed' });
-  // }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
 
   try {
     const { firstName, lastName, signature, shift, timeStamp } = req.body;
@@ -30,7 +39,7 @@ export default async function handler(req, res) {
         firstName,
         lastName,
         signature,
-        shift: shift, // Ensure shiftTime is either "Lunch" or "Dinner" as defined in your Prisma enum.
+        shift,
         timeStamp: date,
       },
     });
