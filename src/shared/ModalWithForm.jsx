@@ -17,7 +17,7 @@ const ModalWithForm = ({
     exit: {
       scale: 0.5,
       opacity: 0,
-      transition: { type: "spring", stiffness: 400, damping: 30, mass: 1 },
+      transition: { type: "spring", stiffness: 600, damping: 50, mass: 1 },
     },
   };
 
