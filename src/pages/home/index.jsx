@@ -128,7 +128,7 @@ const HomePage = () => {
           {activeModal === "error" && (
             <SpringModal
               onClose={handleCloseModal}
-              message="Incorrect username or password"
+              message="Failed to successfully sign the agreement."
             />
           )}
         </AnimatePresence>
