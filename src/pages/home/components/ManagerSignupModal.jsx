@@ -38,7 +38,7 @@ const ManagerSignupModal = ({ onClose, isOpen, onSignup, onError }) => {
       disabled={isSubmitDisabled}
       onSubmit={handleSubmit}
       title="Manager Signup"
-      buttonText="Sign up"
+      buttonText="Register"
     >
       <div className="pb-6">
         <label>

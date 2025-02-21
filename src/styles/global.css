@@ -71,7 +71,6 @@ background-color: #603b28;
 @media screen and (max-width: 560px) {
   .button {
     font-size: 19px;
-    width: 80px;
     padding: 8px 14px;
   }
 }
