@@ -52,7 +52,7 @@ const ManagerLoginModal = ({ onClose, isOpen, onLogin, onError,  }) => {
             <div className="text-red-500">{errors.username}</div>
           )}
         </label>
-        <label className="">
+        <label className="flex flex-col mb-[24px]">
           <p className="font-sourceSerif text-2xl mb-3 font-bold">Password</p>
           <input
             className="border-black border-2 border-solid w-full rounded p-[2px] mb-[10px]"

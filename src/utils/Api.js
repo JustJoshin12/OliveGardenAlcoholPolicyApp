@@ -40,18 +40,18 @@ export const sendEmployeeData = ({
   }).then((res) => checkResponse(res));
 };
 
-export const sendLoginData = async ({ username, password }) => {
-  // Call NextAuth signIn with the credentials provider.
-  const result = await signIn("credentials", {
-    redirect: false,
-    username,
-    password,
-  });
-
-  if (result.error) {
-    return Promise.reject(`Error: ${result.error}`);
-  }
-  
-  return result;
+export const sendSignupData = ({ firstName, lastName, username, email, password }) => {
+  return fetch(`/api/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    }),
+  }).then((res) => checkResponse(res));
 };
-

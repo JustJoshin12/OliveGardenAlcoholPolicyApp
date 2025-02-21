@@ -5,6 +5,8 @@ import Footer from "@/shared/Footer";
 import PolicyModal from "@/pages/home/components/PolicyModal";
 import AgreementModal from "@/pages/home/components/AgreementModal";
 import ManagerLoginModal from "./components/ManagerLoginModal";
+import ManagerSignupModal from "./components/ManagerSignupModal";
+import SecretPasscodeModal from "./components/SecretPasscodeModal";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
@@ -15,17 +17,34 @@ import SpringModal from "@/shared/PopupModal";
 
 const HomePage = () => {
   const shift = useShift();
-  const { loggedIn, login } = useUser();
+  const { loggedIn, login, signup } = useUser();
   const [employeeChartData, setEmployeeChartData] = useState([]);
   const [activeModal, setActiveModal] = useState("");
   const [timeStamp, setTimeStamp] = useState(0);
 
-  const handleErrorModal = () => {
-    setActiveModal("error");
+  const handleAgreementErrorModal = () => {
+    setActiveModal("agreementError");
+  };
+  const handleSecretPasscodeModal = () => {
+    setActiveModal("passcode");
+  };
+  const handleSecretPasscodeErrorModal = () => {
+    setActiveModal("passcodeError");
+  };
+  const handleLoginErrorModal = () => {
+    setActiveModal("loginError");
   };
   const handleLoginModal = () => {
     setActiveModal("login");
   };
+  const handleSignupErrorModal = () => {
+    setActiveModal("signupError");
+  };
+
+  const handleSignupModal = () => {
+    setActiveModal("signup");
+  };
+
   const handlePolicyModal = () => {
     setActiveModal("policy");
   };
@@ -51,7 +70,7 @@ const HomePage = () => {
       .catch((error) => {
         console.error(error.status);
         handleCloseModal();
-        handleErrorModal();
+        handleAgreementErrorModal();
       });
   };
 
@@ -77,7 +96,7 @@ const HomePage = () => {
   }, [shift, timeStamp]);
 
   return (
-    <PageLayout>
+    <PageLayout onClick={handleSecretPasscodeModal}>
       <>
         <main className="h-full w-full pb-12">
           <PolicyAgreementButtons
@@ -89,7 +108,7 @@ const HomePage = () => {
 
         <div className="flex items-center justify-center gap-5 md:justify-end">
           <p className="text-xl font-sourceSerif font-semibold md:text-2xl xl:text-3xl">
-          Access Manager Portal
+            Access Manager Portal
           </p>
           <button className="button" onClick={handleLoginModal}>
             Login
@@ -109,9 +128,9 @@ const HomePage = () => {
             <AgreementModal
               onClose={handleCloseModal}
               onAddData={addEmployeeData}
-              isOpen={activeModal === "agreement"}
               shiftTime={shift}
               timeStamp={timeStamp}
+              onError={handleAgreementErrorModal}
             />
           )}
         </AnimatePresence>
@@ -120,15 +139,57 @@ const HomePage = () => {
             <ManagerLoginModal
               onClose={handleCloseModal}
               onLogin={login}
-              onError={handleErrorModal}
+              onError={handleLoginErrorModal}
             />
           )}
         </AnimatePresence>
         <AnimatePresence>
-          {activeModal === "error" && (
+          {activeModal === "signup" && (
+            <ManagerSignupModal
+              onClose={handleCloseModal}
+              onSignup={signup}
+              onError={handleSignupErrorModal}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {activeModal === "agreementError" && (
             <SpringModal
               onClose={handleCloseModal}
               message="Failed to successfully sign the agreement."
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {activeModal === "loginError" && (
+            <SpringModal
+              onClose={handleCloseModal}
+              message="Failed to login. Incorrect username or password "
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {activeModal === "signupError" && (
+            <SpringModal
+              onClose={handleCloseModal}
+              message="Failed to signup."
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {activeModal === "passcode" && (
+            <SecretPasscodeModal
+              onClose={handleCloseModal}
+              onSuccess={handleSignupModal}
+              onError={handleSecretPasscodeErrorModal}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {activeModal === "passcodeError" && (
+            <SpringModal
+              onClose={handleCloseModal}
+              message="Incorrect passcode."
             />
           )}
         </AnimatePresence>

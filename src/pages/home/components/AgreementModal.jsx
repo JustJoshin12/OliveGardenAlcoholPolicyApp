@@ -6,7 +6,7 @@ import SignatureCanvas from "react-signature-canvas";
 const AgreementModal = ({
   shiftTime,
   timeStamp,
-  isOpen,
+  onError,
   onClose,
   onAddData,
 }) => {
@@ -41,6 +41,12 @@ const AgreementModal = ({
       signature: imageData,
       shiftTime,
       timeStamp,
+    }).then((loginSuccessful) => {
+      if (!loginSuccessful) {
+        onError();
+      } else {
+        onClose();
+      }
     });
   };
 

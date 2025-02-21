@@ -24,7 +24,6 @@ export default NextAuth({
         },
       },
       async authorize(credentials) {
-        // Find the user by username
         const user = await prisma.user.findUnique({
           where: { username: credentials.username },
         });
@@ -37,8 +36,6 @@ export default NextAuth({
         if (!isValid) {
           throw new Error("Invalid password");
         }
-
-        // Return a custom user object with separate firstName and lastName
         return {
           id: user.id,
           firstName: user.firstName,
