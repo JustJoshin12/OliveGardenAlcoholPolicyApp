@@ -8,6 +8,7 @@ const AgreementModal = ({
   timeStamp,
   onError,
   onClose,
+  isOpen,
   onAddData,
 }) => {
   const { values, handleChange, errors, isValid, resetForm } =
